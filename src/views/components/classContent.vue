@@ -549,7 +549,7 @@ export default {
           },
         ],
       ],
-      savaDataList: this.dataList[this.ishow],
+      savaDataList: [],
       // 购物车商品
       shopData: [],
       //搜索框内容
@@ -557,11 +557,15 @@ export default {
     };
   },
   watch: {
-    
+    ishow: {
+      immediate: true,
+      handler(value) {
+        this.savaDataList = this.dataList[value];
+        console.log(this.savaDataList);
+      },
+    },
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
     //打开购物车
     getShop() {
@@ -591,11 +595,11 @@ export default {
     inputChange(data) {
       console.log(data);
       if (data) {
-        this.$set(this.dataList,this.ishow,this.dataList[this.ishow].filter((val) => val.name.includes(this.inputContent)))
-      }else {
-        this.$set(this.dataList,this.ishow,this.savaDataList);
+        this.$set(this.dataList,this.ishow,this.dataList[this.ishow].filter((val) =>val.name.includes(this.inputContent)));
+      } else {
+        this.$set(this.dataList, this.ishow, this.savaDataList);
       }
-    }
+    },
   },
 };
 </script>
