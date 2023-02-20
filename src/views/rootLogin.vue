@@ -59,7 +59,15 @@
 <script>
 export default {
   name: "rootLogin",
-  props: {},
+  props: {
+    orderList:{
+      type: Array,
+      default: () => [],
+    }
+  },
+  created(){
+    console.log(this.orderList);
+  },
   data() {
     const valiRootName = (rule, value, callback) => {
       if (!value) {
@@ -104,8 +112,14 @@ export default {
           ) {
             setTimeout(() => {
               this.loading = false;
+              const orderList = [
+                ...this.orderList
+              ];
               this.$router.push({
-                path: 'rootManagement',
+                name: 'toyManagement',
+                query: {
+                  orderList
+                },
               })
               this.$message({
                 message: "管理员已认证",

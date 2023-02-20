@@ -46,9 +46,13 @@
           </el-menu>
         </el-aside>
         <el-main>
-          <mainPage v-if="mainShow == 1"/>
-          <GoodsManagement v-if="mainShow == 2"/>
-          <UsersManagement v-if="mainShow == 3"/>
+          <mainPage v-if="mainShow == 1" />
+          <GoodsManagement
+            v-if="mainShow == 2"
+            :userOrderList="userOrderList"
+            @updateOrderState="updateOrderState"
+          />
+          <UsersManagement v-if="mainShow == 3" />
         </el-main>
       </el-container>
     </el-container>
@@ -56,12 +60,12 @@
 </template>
 
 <script>
-import mainPage from './components/mainPage.vue';
-import GoodsManagement from './components/GoodsManagement.vue';
-import UsersManagement from './components/UsersManagement.vue';
+import mainPage from "./components/mainPage.vue";
+import GoodsManagement from "./components/GoodsManagement.vue";
+import UsersManagement from "./components/UsersManagement.vue";
 export default {
   name: "toyManageMent",
-  components:{
+  components: {
     mainPage,
     GoodsManagement,
     UsersManagement,
@@ -69,16 +73,32 @@ export default {
   data() {
     return {
       mainShow: 1,
+      userOrderList: [],
     };
+  },
+  mounted() {
+    this.userOrderList = this.$route.query.orderList;
   },
   methods: {
     withdrawManage() {
-      this.$router.replace("/"); //点击路由跳转到首页
+      // this.$router.replace("/toy-main"); //点击路由跳转到首页
+      const userOrderList = this.userOrderList
+      this.$router.push({
+        name: "toyMain",
+        query: {
+          code: 0,
+          userOrderList
+        },
+      });
     },
     getMenuIndex(val) {
       console.log(val);
       this.mainShow = val;
-    }
+    },
+    updateOrderState(data) {
+      console.log(data);
+      this.userOrderList = data;
+    },
   },
 };
 </script>
@@ -105,10 +125,10 @@ export default {
     background: #545c64;
     // opacity:0.5 ;
   }
-  .el-main{
+  .el-main {
     background: #fff;
   }
-  .el-menu{
+  .el-menu {
     height: 100%;
   }
 }

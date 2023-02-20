@@ -277,7 +277,7 @@
         </span>
       </el-dialog>
     </el-container>
-    <rootLogin v-if="isRoot" />
+    <rootLogin v-if="isRoot" :orderList="orderList"/>
   </div>
 </template>
 
@@ -359,6 +359,14 @@ export default {
   mounted() {
     console.log(this.$route.params);
     this.userForm = this.$route.params;
+    console.log(this.$route.query);
+    if (this.$route.query.code === 0) {
+      this.orderList = this.$route.query.userOrderList;
+    }
+    // if (this.$route.query) {
+    //   this.orderList = this.$route.query;
+    //   console.log(this.orderList);
+    // }
   },
   methods: {
     // 点击事件，跳转对应界面

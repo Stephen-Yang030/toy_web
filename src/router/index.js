@@ -16,12 +16,12 @@ const routes = [
     component: toyMain,
   },
   {
-    path: 'root-login',
+    path: '/root-login',
     name: 'rootLogin',
     component: () => import('../views/rootLogin.vue'),
   },
   {
-    path: '/rootManagement',
+    path: '/toyManagement',
     name: 'toyManagement',
     component: () => import('../views/managements/toyManagement.vue'),
   },

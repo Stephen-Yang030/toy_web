@@ -29,7 +29,7 @@
           fixed="right"
         >
           <template slot-scope="scope">
-            <el-button @click="editClick(scope.row)" type="text" size="small"
+            <el-button @click="editClick(scope.row,scope)" type="text" size="small"
               >物流状态</el-button
             >
             <el-button type="text" size="small">删除订单</el-button>
@@ -56,72 +56,45 @@
 <script>
 export default {
   name: "GoodsManagement",
+  props:{
+    userOrderList:{
+      type: Array,
+      default: () => [],
+    }
+  },
   data() {
     return {
       radio: "待发货",
-      transState: "",
       dialogVisible: false,
-      tableData: [
-        {
-          name: "白玉神驹",
-          sale: 80,
-          state: "未发货",
-          user: "liu",
-        },
-        {
-          name: "裁决者",
-          sale: 1200,
-          state: "已发货",
-          user: "pionm",
-        },
-        {
-          name: "白玉神驹",
-          sale: 80,
-          state: "未发货",
-          user: "liu",
-        },
-        {
-          name: "裁决者",
-          sale: 1200,
-          state: "已发货",
-          user: "pionm",
-        },
-        {
-          name: "白玉神驹",
-          sale: 80,
-          state: "未发货",
-          user: "liu",
-        },
-        {
-          name: "裁决者",
-          sale: 1200,
-          state: "已发货",
-          user: "pionm",
-        },
-        {
-          name: "白玉神驹",
-          sale: 80,
-          state: "未发货",
-          user: "liu",
-        },
-        {
-          name: "裁决者",
-          sale: 1200,
-          state: "已发货",
-          user: "pionm",
-        },
-      ],
+      tableData: [],
       pageTotal: 1,
+      orderIndex: 0,
     };
   },
+  created(){
+    console.log(this.userOrderList);
+    this.userOrderList.forEach((i) => {
+      this.tableData.push(i);
+    })
+  },
   methods: {
-    editClick(val) {
-      console.log(val);
+    editClick(val,scope) {
+      console.log(val,scope);
+      this.orderIndex = scope.$index;
       this.dialogVisible = true;
     },
     stateChange(data) {
       console.log(data);
-      this.transState = data;
+      // this.tableData[this.orderIndex].transState = data;
+      if (data === '待发货') {
+        this.tableData[this.orderIndex].waitShopNumber++;
+        this.tableData[this.orderIndex].undeterminedShop = this.tableData[this.orderIndex].name;
+      }else if(data === '已发货'){
+        this.tableData[this.orderIndex].hasShopNumber++;
+        this.tableData[this.orderIndex].hasShop = this.tableData[this.orderIndex].name;
+      }
+      console.log(this.tableData);
+      this.$emit('updateOrderState',this.tableData)
     },
   },
 };
