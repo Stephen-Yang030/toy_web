@@ -95,9 +95,11 @@ export default {
       console.log(val);
       this.mainShow = val;
     },
-    updateOrderState(data) {
-      console.log(data);
-      this.userOrderList = data;
+    updateOrderState(tableData,waitFinishList,hasFinishList) {
+      console.log(tableData,waitFinishList,hasFinishList);
+      this.userOrderList = [];
+      this.userOrderList.push(tableData,waitFinishList,hasFinishList);
+      console.log(this.userOrderList,1234123423);
     },
   },
 };

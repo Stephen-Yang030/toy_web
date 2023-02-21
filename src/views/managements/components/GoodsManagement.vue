@@ -69,6 +69,8 @@ export default {
       tableData: [],
       pageTotal: 1,
       orderIndex: 0,
+      hasFinishList: [],
+      waitFinishList: [],
     };
   },
   created(){
@@ -87,14 +89,12 @@ export default {
       console.log(data);
       // this.tableData[this.orderIndex].transState = data;
       if (data === '待发货') {
-        this.tableData[this.orderIndex].waitShopNumber++;
-        this.tableData[this.orderIndex].undeterminedShop = this.tableData[this.orderIndex].name;
+        this.waitFinishList.push(this.tableData[this.orderIndex]);
       }else if(data === '已发货'){
-        this.tableData[this.orderIndex].hasShopNumber++;
-        this.tableData[this.orderIndex].hasShop = this.tableData[this.orderIndex].name;
+        this.hasFinishList.push(this.tableData[this.orderIndex]);
       }
       console.log(this.tableData);
-      this.$emit('updateOrderState',this.tableData)
+      this.$emit('updateOrderState',this.tableData,this.waitFinishList,this.hasFinishList);
     },
   },
 };

@@ -89,12 +89,12 @@
                     <el-descriptions-item label="订单数量">{{
                       orderList.length
                     }}</el-descriptions-item>
-                    <el-descriptions-item
-                      label="发货数量"
-                    ></el-descriptions-item>
-                    <el-descriptions-item
-                      label="待发货数量"
-                    ></el-descriptions-item>
+                    <el-descriptions-item label="发货数量">
+                      {{ hasFinishList.length }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="待发货数量">
+                      {{ waitFinishList.length }}
+                    </el-descriptions-item>
                   </el-descriptions>
                   <el-descriptions
                     title="联系我们"
@@ -195,14 +195,14 @@
               </el-tab-pane>
               <el-tab-pane label="发货数量">
                 <el-table
-                  :data="orderList"
+                  :data="hasFinishList"
                   style="width: 100%"
                   max-height="250"
                 >
                   <el-table-column label="已发货商品数量" prop="hasShopNumber">
                     <el-table-column
                       fixed
-                      prop="hasShop"
+                      prop="name"
                       label="已发货商品名称"
                       width="150"
                     >
@@ -225,14 +225,14 @@
               </el-tab-pane>
               <el-tab-pane label="待发货数量">
                 <el-table
-                  :data="orderList"
+                  :data="waitFinishList"
                   style="width: 100%"
                   max-height="250"
                 >
                   <el-table-column label="待发货商品数量" prop="waitShopNumber">
                     <el-table-column
                       fixed
-                      prop="undeterminedShop"
+                      prop="name"
                       label="待发货商品名称"
                       width="150"
                     >
@@ -263,21 +263,15 @@
           </el-dialog>
         </div>
       </el-main>
-      <el-dialog
-        title="提示"
-        :visible.sync="dialogVisible"
-        width="30%"
-      >
+      <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
         <span>请确认进入管理员登录页</span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="enterRootLogin"
-            >确 定</el-button
-          >
+          <el-button type="primary" @click="enterRootLogin">确 定</el-button>
         </span>
       </el-dialog>
     </el-container>
-    <rootLogin v-if="isRoot" :orderList="orderList"/>
+    <rootLogin v-if="isRoot" :orderList="orderList" />
   </div>
 </template>
 
@@ -352,6 +346,8 @@ export default {
       formLabelWidth: "80px",
       shopShow: false,
       orderList: [], //订单列表
+      waitFinishList: [], //待发货表
+      hasFinishList: [], //已发货表
       isRoot: false,
       dialogVisible: false,
     };
@@ -361,7 +357,9 @@ export default {
     this.userForm = this.$route.params;
     console.log(this.$route.query);
     if (this.$route.query.code === 0) {
-      this.orderList = this.$route.query.userOrderList;
+      this.orderList = this.$route.query.userOrderList[0];
+      this.waitFinishList = this.$route.query.userOrderList[1];
+      this.hasFinishList = this.$route.query.userOrderList[2];
     }
     // if (this.$route.query) {
     //   this.orderList = this.$route.query;
@@ -410,7 +408,7 @@ export default {
     showShopInfo() {
       this.shopShow = true;
     },
-    // 接受事件
+    // 接收事件
     getShopList(data) {
       data.forEach((val) => {
         this.orderList.push(val);
@@ -448,7 +446,7 @@ export default {
     enterRootLogin() {
       setTimeout(() => {
         this.isRoot = true;
-      },1500)
+      }, 1500);
     },
   },
 };
