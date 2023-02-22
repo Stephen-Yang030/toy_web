@@ -52,7 +52,7 @@
             :userOrderList="userOrderList"
             @updateOrderState="updateOrderState"
           />
-          <UsersManagement v-if="mainShow == 3" />
+          <UsersManagement v-if="mainShow == 3" :userForm="userForm"/>
         </el-main>
       </el-container>
     </el-container>
@@ -74,20 +74,24 @@ export default {
     return {
       mainShow: 1,
       userOrderList: [],
+      userForm: [],
     };
   },
   mounted() {
     this.userOrderList = this.$route.query.orderList;
+    this.userForm = this.$route.query.userForm;
   },
   methods: {
     withdrawManage() {
       // this.$router.replace("/toy-main"); //点击路由跳转到首页
       const userOrderList = this.userOrderList
+      const userForm = this.userForm;
       this.$router.push({
         name: "toyMain",
         query: {
           code: 0,
-          userOrderList
+          userOrderList,
+          userForm,
         },
       });
     },

@@ -271,7 +271,7 @@
         </span>
       </el-dialog>
     </el-container>
-    <rootLogin v-if="isRoot" :orderList="orderList" />
+    <rootLogin v-if="isRoot" :orderList="orderList" :userForm="userForm" />
   </div>
 </template>
 
@@ -353,11 +353,12 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$route.params);
-    this.userForm = this.$route.params;
+    console.log(this.$route.query);
+    this.userForm = this.$route.query;
     console.log(this.$route.query);
     if (this.$route.query.code === 0) {
       this.orderList = this.$route.query.userOrderList[0];
+      this.userForm = this.$route.query.userForm;
       this.waitFinishList = this.$route.query.userOrderList[1];
       this.hasFinishList = this.$route.query.userOrderList[2];
     }

@@ -68,7 +68,6 @@
       </div>
     </el-form>
     <UserRegister v-if="userReg" @okayRegister="okayRegister" />
-    
   </div>
 </template>
 
@@ -143,11 +142,14 @@ export default {
                 type: "success",
               });
               this.$router.push({
-                name: 'toyMain',
-                params: this.registerObject,
+                name: "toyMain",
+                query: this.registerObject,
               });
             }, 1500);
-          }else if(this.loginForm.username === 'root'&&this.loginForm.password === '123') {
+          } else if (
+            this.loginForm.username === "root" &&
+            this.loginForm.password === "123"
+          ) {
             setTimeout(() => {
               this.loading = false;
               this.$message({
@@ -155,7 +157,7 @@ export default {
                 type: "success",
               });
               this.$router.push({
-                name: 'toyMain',
+                name: "toyMain",
               });
             }, 1500);
           } else {

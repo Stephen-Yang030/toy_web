@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-table :data="usersInfoData" style="width: 100%">
-      <el-table-column prop="userName" label="用户名称" width="180">
+      <el-table-column prop="username" label="用户名称" width="180">
       </el-table-column>
-      <el-table-column prop="userNumber" label="用户电话" width="180">
+      <el-table-column prop="phoneNumber" label="用户电话" width="180">
       </el-table-column>
-      <el-table-column prop="userSex" label="用户性别" width="180">
+      <el-table-column prop="sex" label="用户性别" width="180">
       </el-table-column>
       <el-table-column prop="shopNum" label="购买数量"> </el-table-column>
       <el-table-column label="操作" prop="operation" width="150" fixed="right">
@@ -22,17 +22,20 @@
 <script>
 export default {
   name: "UsersManagement",
+  props:{
+    userForm:{
+      type: Object,
+      default: () => {},
+    }
+  },
   data() {
     return {
-      usersInfoData: [
-        {
-          userName: "",
-          userNumber: 16156163165,
-          userSex: "男",
-          shopNum: 8,
-        },
-      ],
+      usersInfoData: [],
     };
+  },
+  mounted() {
+    this.usersInfoData.push(this.userForm);
+    console.log(this.usersInfoData);
   },
   methods: {
     delUserClick(val) {

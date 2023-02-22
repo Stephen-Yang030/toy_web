@@ -63,10 +63,14 @@ export default {
     orderList:{
       type: Array,
       default: () => [],
-    }
+    },
+    userForm: {
+      type: Object,
+      default: () => {},
+    },
   },
   created(){
-    console.log(this.orderList);
+    console.log(this.orderList,this.userForm,22222);
   },
   data() {
     const valiRootName = (rule, value, callback) => {
@@ -115,10 +119,12 @@ export default {
               const orderList = [
                 ...this.orderList
               ];
+              const userForm = this.userForm;
               this.$router.push({
                 name: 'toyManagement',
                 query: {
-                  orderList
+                  orderList,
+                  userForm,
                 },
               })
               this.$message({
