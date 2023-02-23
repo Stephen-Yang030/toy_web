@@ -15,7 +15,7 @@
                 <span>{{ props.row.state }}</span>
               </el-form-item>
               <el-form-item label="下单用户">
-                <span>{{ props.row.user }}</span>
+                <span>{{ props.row.username }}</span>
               </el-form-item>
             </el-form>
           </template>
@@ -32,7 +32,7 @@
             <el-button @click="editClick(scope.row,scope)" type="text" size="small"
               >物流状态</el-button
             >
-            <el-button type="text" size="small">删除订单</el-button>
+            <el-button type="text" size="small" @click="delOrderItem(scope)">删除订单</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -41,7 +41,7 @@
       <el-radio-group v-model="radio" @input="stateChange">
         <el-radio label="待发货">待发货</el-radio>
         <el-radio label="已发货">已发货</el-radio>
-        <el-radio label="已签收">已签收</el-radio>
+        <!-- <el-radio label="已签收">已签收</el-radio> -->
       </el-radio-group>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -60,6 +60,10 @@ export default {
     userOrderList:{
       type: Array,
       default: () => [],
+    },
+    userName:{
+      type: String,
+      default: '',
     }
   },
   data() {
@@ -88,6 +92,7 @@ export default {
     stateChange(data) {
       console.log(data);
       // this.tableData[this.orderIndex].transState = data;
+      this.tableData[this.orderIndex].state = data;
       if (data === '待发货') {
         this.waitFinishList.push(this.tableData[this.orderIndex]);
       }else if(data === '已发货'){
@@ -96,6 +101,11 @@ export default {
       console.log(this.tableData);
       this.$emit('updateOrderState',this.tableData,this.waitFinishList,this.hasFinishList);
     },
+    delOrderItem(data) {
+      // console.log(data);
+      this.tableData = this.tableData.filter((i) => i !== data.row);
+      console.log(this.tableData);
+    }
   },
 };
 </script>

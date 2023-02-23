@@ -1,5 +1,9 @@
 <template>
-  <div class="toy-body">
+  <div class="toy-body"
+  v-loading="loading"
+   element-loading-text="root准备中..."
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.6)">
     <el-container v-if="!isRoot">
       <el-header>
         <div>
@@ -290,6 +294,7 @@ export default {
       clickNumber: 0,
       ShowWord: true,
       ishow: -1, //控制跳转
+      loading: false,
       linkList: [
         "首页",
         "玩具车系列",
@@ -445,8 +450,11 @@ export default {
       this.dialogVisible = true;
     },
     enterRootLogin() {
+      this.dialogVisible = false;
+      this.loading = true;
       setTimeout(() => {
         this.isRoot = true;
+        this.loading = false;
       }, 1500);
     },
   },

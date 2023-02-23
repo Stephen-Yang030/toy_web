@@ -80,6 +80,7 @@ export default {
   mounted() {
     this.userOrderList = this.$route.query.orderList;
     this.userForm = this.$route.query.userForm;
+    this.userOrderList[0].userName = this.$route.query.userForm.username;
   },
   methods: {
     withdrawManage() {
