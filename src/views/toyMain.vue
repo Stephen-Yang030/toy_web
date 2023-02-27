@@ -444,6 +444,8 @@ export default {
     //
     deleteOrder(index, val) {
       this.orderList = this.orderList.filter((i) => i !== val[index]);
+      // console.log(index,val);
+      // val.splice(index,1)
     },
     applyDelOrder() {},
     enterRoot() {

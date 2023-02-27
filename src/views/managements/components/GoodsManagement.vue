@@ -89,6 +89,8 @@ export default {
       this.orderIndex = scope.$index;
       this.dialogVisible = true;
     },
+
+    // 修改商品发货状态，修改成功后可在首页查看已发货和未发货商品信息
     stateChange(data) {
       console.log(data);
       // this.tableData[this.orderIndex].transState = data;
