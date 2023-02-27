@@ -57,7 +57,15 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-dialog title="购物车清单" :visible.sync="shopDialog" width="30%">
+    <el-dialog
+      title="购物车清单"
+      :visible.sync="shopDialog"
+      width="30%"
+      v-loading="loading"
+      :element-loading-text="textContent"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+    >
       <el-table :data="shopData" height="250">
         <el-table-column
           property="name"
@@ -114,15 +122,15 @@ export default {
           {
             name: "白玉神驹",
             sale: 80,
-            hasShopNumber: 0,  
+            hasShopNumber: 0,
             waitShopNumber: 0,
             url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.alicdn.com%2Fi2%2F2208055210784%2FO1CN01y2u5wS1D123YMua7C_%21%21155-0-lubanu.jpg&refer=http%3A%2F%2Fimg.alicdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1675404854&t=ae252345bb2af837f14559c9a18c8a33",
           },
           {
             name: "雷诺",
             sale: 80,
-            hasShopNumber: 0, 
-             waitShopNumber: 0,
+            hasShopNumber: 0,
+            waitShopNumber: 0,
             url: "https://img30.360buyimg.com/imgzone/jfs/t1/139845/8/21444/163140/61a1864bEe04637f2/b0122627cedcafac.jpg",
           },
           {
@@ -736,6 +744,9 @@ export default {
       shopData: [],
       //搜索框内容
       inputContent: "",
+      // loading内容
+      textContent: "",
+      loading: false,
     };
   },
   watch: {
@@ -770,8 +781,17 @@ export default {
     },
     // 抛出购物车内商品
     getShopList() {
-      this.shopDialog = false;
-      this.$emit("getShopList", this.shopData);
+      this.textContent = "正在创建订单......";
+      this.loading = true;
+      setTimeout(() => {
+        this.shopDialog = false;
+        this.loading = false;
+        this.$message({
+          message: '购买成功',
+          type: 'success'
+        });
+        this.$emit("getShopList", this.shopData);
+      }, 2000);
     },
     // 搜索查询
     inputChange(data) {
